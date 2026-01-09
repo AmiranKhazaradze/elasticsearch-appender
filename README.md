@@ -1,18 +1,19 @@
 # Elasticsearch Appender
 
-ეს არის Elasticsearch Appender, რომელიც ინტეგრირებადია სხვა აპლიკაციაში ლოგების Elasticsearch-ში გაგზავნის მიზნით
+Elasticsearch Appender არის ბიბლიოთეკა, რომელიც გამოიყენება Java / Spring Boot აპლიკაციებში
+ლოგების ავტომატურად Elasticsearch-ში გასაგზავნად.
 
 ## ინსტალაცია
 
 ### Maven-ის გამოყენებით
 
-პროექტი შეგიძლიათ დაამატოთ თქვენს Maven-პროექტში:
+დაამატეთ დამოკიდებულება თქვენს `pom.xml` ფაილში:
 
 ```xml
 <dependency>
-    <groupId>ge.ak</groupId>
+    <groupId>io.github.amirankhazaradze</groupId>
     <artifactId>elasticsearch-appender</artifactId>
-    <version>8.13.4-SNAPSHOT</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
