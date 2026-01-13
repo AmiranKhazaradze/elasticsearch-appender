@@ -14,7 +14,7 @@
 
     <groupId>io.github.amirankhazaradze</groupId>
     <artifactId>elasticsearch-appender</artifactId>
-    <version>8.0.0</version>
+    <version>8.0.1</version>
 
     <name>elasticsearch-appender</name>
     <description>Elasticsearch Appender</description>
@@ -97,6 +97,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.14</version>
             <optional>true</optional>
         </dependency>
     </dependencies>
