@@ -14,7 +14,7 @@
 
     <groupId>io.github.amirankhazaradze</groupId>
     <artifactId>elasticsearch-appender</artifactId>
-    <version>8.0.1</version>
+    <version>8.1.0</version>
 
     <name>elasticsearch-appender</name>
     <description>Elasticsearch Appender</description>
@@ -32,7 +32,7 @@
         <developer>
             <id>amirankhazaradze</id>
             <name>Amiran Khazaradze</name>
-            <url>https://github.com/AmiranKhazaradze</url>
+            <url>https://github.com/AmiranKhazaradze/elasticsearch-appender</url>
         </developer>
     </developers>
 
@@ -73,14 +73,12 @@
             <groupId>co.elastic.clients</groupId>
             <artifactId>elasticsearch-java</artifactId>
             <version>${elastic.version}</version>
-            <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>elasticsearch-rest-client</artifactId>
             <version>${elastic.version}</version>
-            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -99,12 +97,14 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.5.14</version>
             <optional>true</optional>
         </dependency>
+
     </dependencies>
 
     <build>
