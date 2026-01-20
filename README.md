@@ -17,7 +17,7 @@ Elasticsearch Appender არის ბიბლიოთეკა, რომე
 <dependency>
     <groupId>io.github.amirankhazaradze</groupId>
     <artifactId>elasticsearch-appender</artifactId>
-    <version>1.0.0</version>
+    <version>8.1.0</version>
 </dependency>
 ```
 
