@@ -5,7 +5,7 @@ Elasticsearch Appender არის ბიბლიოთეკა, რომე
 
 ## თავსებადობა
 
-- ✅ მხარდაჭერილია **Elasticsearch 8.x** ვერსია.
+- ✅ მხარდაჭერილია **Elasticsearch 9.x** ვერსია.
 
 ## ინსტალაცია
 
@@ -17,7 +17,7 @@ Elasticsearch Appender არის ბიბლიოთეკა, რომე
 <dependency>
     <groupId>io.github.amirankhazaradze</groupId>
     <artifactId>elasticsearch-appender</artifactId>
-    <version>8.1.0</version>
+    <version>9.0.0</version>
 </dependency>
 ```
 

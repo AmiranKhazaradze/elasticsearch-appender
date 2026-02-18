@@ -8,7 +8,6 @@ import co.elastic.clients.elasticsearch.ilm.IlmPolicy;
 import co.elastic.clients.elasticsearch.ilm.PutLifecycleRequest;
 import co.elastic.clients.elasticsearch.indices.CreateDataStreamRequest;
 import co.elastic.clients.elasticsearch.indices.ExistsRequest;
-import co.elastic.clients.elasticsearch.indices.ExistsTemplateRequest;
 import co.elastic.clients.elasticsearch.indices.IndexSettings;
 import co.elastic.clients.elasticsearch.indices.PutIndexTemplateRequest;
 import co.elastic.clients.json.JsonData;
@@ -115,9 +114,10 @@ public class CheckIndex {
 
     private boolean templateExists(String templateName) {
         try {
-            ExistsTemplateRequest request = new ExistsTemplateRequest.Builder().name(templateName).build();
-            BooleanResponse exists = elasticsearchClient.indices().existsTemplate(request);
-            return exists.value();
+            var request = new co.elastic.clients.elasticsearch.indices.ExistsIndexTemplateRequest.Builder()
+                    .name(templateName)
+                    .build();
+            return elasticsearchClient.indices().existsIndexTemplate(request).value();
         } catch (IOException e) {
             log.error("Error checking template existence: {}", e.getMessage(), e);
             return false;
@@ -149,7 +149,7 @@ public class CheckIndex {
                         .mappings(m -> m.properties("timestamp", p -> p.date(d -> d)))
                 )
                 .dataStream(d -> d)
-                .priority(100)
+                .priority(100L)
                 .build();
 
         elasticsearchClient.indices().putIndexTemplate(request);
@@ -168,8 +168,17 @@ public class CheckIndex {
 
     private boolean ilmPolicyExists() {
         try {
-            GetLifecycleRequest request = new GetLifecycleRequest.Builder().build();
-            return elasticsearchClient.ilm().getLifecycle(request).result().containsKey(ILM_POLICY_NAME);
+            GetLifecycleRequest request = new GetLifecycleRequest.Builder()
+                    .name(ILM_POLICY_NAME)
+                    .build();
+            elasticsearchClient.ilm().getLifecycle(request);
+            return true;
+        } catch (co.elastic.clients.transport.TransportException e) {
+            if (e.getMessage() != null && e.getMessage().contains("404")) {
+                return false;
+            }
+            log.error("Error checking ILM policy existence: {}", e.getMessage());
+            return false;
         } catch (Exception e) {
             log.error("Error checking ILM policy existence: {}", e.getMessage());
             return false;
@@ -184,24 +193,22 @@ public class CheckIndex {
 
         log.info("Creating ILM policy {}", ILM_POLICY_NAME);
 
-        Map<String, Object> rolloverAction = Map.of("max_age", HOT_PHASE);
-        Map<String, Object> hotActions = Map.of("rollover", rolloverAction);
-        Map<String, Object> warmActions = Map.of("set_priority", Map.of("priority", 50));
-        Map<String, Object> coldActions = Map.of("set_priority", Map.of("priority", 20));
-        Map<String, Object> deleteActions = Map.of("delete", Map.of());
-
         PutLifecycleRequest request = new PutLifecycleRequest.Builder()
                 .name(ILM_POLICY_NAME)
                 .policy(new IlmPolicy.Builder()
                         .phases(p -> p
-                                .hot(h -> h.minAge(Time.of(t -> t.time("0ms")))
-                                        .actions(JsonData.of(hotActions)))
-                                .warm(w -> w.minAge(Time.of(t -> t.time(WARM_PHASE)))
-                                        .actions(JsonData.of(warmActions)))
-                                .cold(c -> c.minAge(Time.of(t -> t.time(COLD_PHASE)))
-                                        .actions(JsonData.of(coldActions)))
-                                .delete(d -> d.minAge(Time.of(t -> t.time(DELETE_PHASE)))
-                                        .actions(JsonData.of(deleteActions)))
+                                .hot(h -> h
+                                        .minAge(Time.of(t -> t.time("0ms")))
+                                        .actions(a -> a.rollover(r -> r.maxAge(Time.of(t -> t.time(HOT_PHASE))))))
+                                .warm(w -> w
+                                        .minAge(Time.of(t -> t.time(WARM_PHASE)))
+                                        .actions(a -> a.setPriority(sp -> sp.priority(50))))
+                                .cold(c -> c
+                                        .minAge(Time.of(t -> t.time(COLD_PHASE)))
+                                        .actions(a -> a.setPriority(sp -> sp.priority(20))))
+                                .delete(d -> d
+                                        .minAge(Time.of(t -> t.time(DELETE_PHASE)))
+                                        .actions(a -> a.delete(del -> del)))
                         )
                         .build()
                 )
