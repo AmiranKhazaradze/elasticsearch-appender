@@ -1,17 +1,16 @@
 # Elasticsearch Appender
 
-Elasticsearch Appender არის ბიბლიოთეკა, რომელიც გამოიყენება Java / Spring Boot აპლიკაციებში
-ლოგების ავტომატურად Elasticsearch-ში გასაგზავნად.
+Elasticsearch Appender is a library for Java / Spring Boot applications that automatically ships application logs to Elasticsearch.
 
-## თავსებადობა
+## Compatibility
 
-- ✅ მხარდაჭერილია **Elasticsearch 8.x** ვერსია.
+- ✅ Supports **Elasticsearch 8.x**.
 
-## ინსტალაცია
+## Installation
 
-### Maven-ის გამოყენებით
+### Using Maven
 
-დაამატეთ დამოკიდებულება თქვენს `pom.xml` ფაილში:
+Add the dependency to your `pom.xml`:
 
 ```xml
 <dependency>
@@ -21,40 +20,40 @@ Elasticsearch Appender არის ბიბლიოთეკა, რომე
 </dependency>
 ```
 
-## კონფიგურაციის პარამეტრები
+## Configuration Parameters
 
-ქვემოთ მოცემულია Elasticsearch Appender-ის კონფიგურაციის პარამეტრები და მათი აღწერა:
+Below are the configuration parameters for Elasticsearch Appender and their descriptions:
 
-- **management.health.elasticsearch.enabled**: გამორთული Elasticsearch ჯანმრთელობის შემოწმება. მაგალითად: `true or false`.
-- **elasticsearch.appender.elastic.create-index**: დატასტრიმის შექმნა Elasticsearch ში. შექმნის თუ არ არსებობს. მაგალითად: `true or false`.
-- **elasticsearch.appender.elastic.iml.policy-name**: ლოგების პოლისის სახელი. შექმნის თუ არ არსებობს. მაგალითად: `log-policy`.
-- **elasticsearch.appender.elastic.iml.hot-phase**: პოლისის ფაზა ცხელი. მაგალითად: `30d`.
-- **elasticsearch.appender.elastic.iml.warm-phase**: პოლისის ფაზა თბილი. მაგალითად: `60d`.
-- **elasticsearch.appender.elastic.iml.cold-phase**: პოლისის ფაზა ცივი. მაგალითად: `90d`.
-- **elasticsearch.appender.elastic.iml.delete-phase**: პოლისის ფაზა წაშლა. მაგალითად: `365d`.
-- **elasticsearch.appender.elastic.enable**: ლოგების ჩართვა გამორთვა. მაგალითად: `true or false`.
-- **elasticsearch.appender.elastic.host**: Elasticsearch სერვერის მისამართი. მაგალითად: `elastic-host`.
-- **elasticsearch.appender.elastic.port**: Elasticsearch სერვერის პორტი. ნაგულისხმევი პორტია `9200`.
-- **elasticsearch.appender.elastic.username**: Elasticsearch-ის მომხმარებლის სახელი. მაგალითად: `elastic`.
-- **elasticsearch.appender.elastic.schema**: გამოყენებული სქემა (`http` ან `https`). მაგალითად: `https`.
-- **elasticsearch.appender.elastic.password**: Elasticsearch-ის მომხმარებლის პაროლი. მაგალითად: `password`.
-- **elasticsearch.appender.elastic.action-log-index-name**: ინდექსის სახელი ქმედებების ლოგებისთვის. მაგალითად: `prod-action-log`.
-- **elasticsearch.appender.url-patterns**: URL ნიმუშები, რომლებიც უნდა იყოს ლოგირებული. მაგალითად: `/api/*`.
-- **elasticsearch.appender.elastic.app-name**: აპლიკაციის სახელი, რომელიც გამოიყენება ლოგებში. მაგალითად: `app-name`.
-- **elasticsearch.appender.elastic.log-level**: ლოგის დონე. მაგალითად: `INFO`.
-- **elasticsearch.appender.elastic.system-log-index-name**: ინდექსის სახელი სისტემური ლოგებისთვის. მაგალითად: `prod-system-log`. თუ ეს პარამეტრი ცარიელია (`""` ან `null`), სისტემური ლოგები არ გაიგზავნება Elasticsearch-ში.
-- **elasticsearch.appender.elastic.system-log-logger-name**: ლოგერის სახელი სისტემური ლოგებისთვის. მაგალითად: `es-logger`.
-- **elasticsearch.appender.elastic.system-log-error-logger-name**: ლოგერის სახელი სისტემური შეცდომების ლოგებისთვის. მაგალითად: `es-error-logger`.
+- **management.health.elasticsearch.enabled**: Enables/disables the Elasticsearch health check. Example: `true` or `false`.
+- **elasticsearch.appender.elastic.create-index**: Creates the data stream in Elasticsearch if it does not exist. Example: `true` or `false`.
+- **elasticsearch.appender.elastic.iml.policy-name**: Name of the log ILM policy. Created if it does not exist. Example: `log-policy`.
+- **elasticsearch.appender.elastic.iml.hot-phase**: ILM hot phase duration. Example: `30d`.
+- **elasticsearch.appender.elastic.iml.warm-phase**: ILM warm phase duration. Example: `60d`.
+- **elasticsearch.appender.elastic.iml.cold-phase**: ILM cold phase duration. Example: `90d`.
+- **elasticsearch.appender.elastic.iml.delete-phase**: ILM delete phase duration. Example: `365d`.
+- **elasticsearch.appender.elastic.enable**: Enables/disables logging. Example: `true` or `false`.
+- **elasticsearch.appender.elastic.host**: Elasticsearch server address. Example: `elastic-host`.
+- **elasticsearch.appender.elastic.port**: Elasticsearch server port. Default port is `9200`.
+- **elasticsearch.appender.elastic.username**: Elasticsearch username. Example: `elastic`.
+- **elasticsearch.appender.elastic.schema**: Scheme used (`http` or `https`). Example: `https`.
+- **elasticsearch.appender.elastic.password**: Elasticsearch user password. Example: `password`.
+- **elasticsearch.appender.elastic.action-log-index-name**: Index name for action logs. Example: `prod-action-log`.
+- **elasticsearch.appender.url-patterns**: URL patterns that should be logged. Example: `/api/*`.
+- **elasticsearch.appender.elastic.app-name**: Application name used in the logs. Example: `app-name`.
+- **elasticsearch.appender.elastic.log-level**: Log level. Example: `INFO`.
+- **elasticsearch.appender.elastic.system-log-index-name**: Index name for system logs. Example: `prod-system-log`. If this parameter is empty (`""` or `null`), system logs will not be sent to Elasticsearch.
+- **elasticsearch.appender.elastic.system-log-logger-name**: Logger name for system logs. Example: `es-logger`.
+- **elasticsearch.appender.elastic.system-log-error-logger-name**: Logger name for system error logs. Example: `es-error-logger`.
 
-## ინსტალაცია და გამოყენება
+## Installation and Usage
 
-1. **დამოკიდებულების დამატება**: დაამატეთ ეს დამოკიდებულება თქვენს პროექტში.
+1. **Add the dependency**: Add this dependency to your project.
 
-2. **კონფიგურაცია**: დააყენეთ ზემოთ ჩამოთვლილი პარამეტრები თქვენი აპლიკაციის კონფიგურაციის ფაილში (მაგ., `application.properties` ან `application.yml`).
+2. **Configuration**: Set the parameters listed above in your application's configuration file (e.g., `application.properties` or `application.yml`).
 
-3. **გაშვება**: გაუშვით თქვენი აპლიკაცია და ლოგები ავტომატურად გაიგზავნება Elasticsearch-ში.
+3. **Run**: Start your application and logs will automatically be sent to Elasticsearch.
 
-## მაგალითი
+## Example
 
 ```properties
 management.health.elasticsearch.enabled=true
@@ -77,3 +76,4 @@ elasticsearch.appender.elastic.log-level=INFO
 elasticsearch.appender.elastic.system-log-index-name=prod-system-log
 elasticsearch.appender.elastic.system-log-logger-name=es-logger
 elasticsearch.appender.elastic.system-log-error-logger-name=es-error-logger
+```
